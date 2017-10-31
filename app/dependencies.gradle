@@ -1,0 +1,36 @@
+import java.util.regex.Pattern
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile supportDependencies.appCompat
+    compile supportDependencies.design
+    compile supportDependencies.recyclerView
+    compile supportDependencies.cardView
+    compile supportDependencies.butterKnife
+    annotationProcessor   supportDependencies.butterknifeCompiler
+    compile supportDependencies.eventBus
+    compile supportDependencies.bottomBar
+    compile supportDependencies.fragNav
+    compile supportDependencies.floatingSearchView
+    compile supportDependencies.fab
+    compile supportDependencies.gson
+    compile supportDependencies.retrofit
+    compile supportDependencies.retrofitConvert
+    compile supportDependencies.okhttp
+    compile supportDependencies.shortcutBadger
+    compile supportDependencies.servicesLocation
+    compile supportDependencies.servicesMaps
+    compile supportDependencies.firebaseCore
+    compile supportDependencies.firebaseMessaging
+    compile supportDependencies.retrofitRxJava
+    compile supportDependencies.retrofitScalars
+    compile supportDependencies.rxAndroid
+    compile supportDependencies.rxJava
+    //classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+
+    //compile supportDependencies.androidWidgets
+
+
+    debugCompile debugDependencies.logger
+}

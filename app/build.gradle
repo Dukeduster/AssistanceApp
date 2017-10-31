@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.22.1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+    }
+}
+apply plugin: 'com.android.application'
+//apply plugin: 'io.fabric'
+//apply plugin: 'android-apt'
+
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    google()
+}
+
+def final ipDebugApp = '\"http://luditics.eastus.cloudapp.azure.com:8001/\"'
+def final ipReleaseApp = '\"http://190.248.130.90:16969/sgifv5rest/webresources/\"'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "co.edu.udea.arqsoft.assistapp"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "IPAPP", ipDebugApp
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:25.0.2'
+    implementation 'com.android.support:design:25.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:support-v4:25.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
+        transitive = true;
+    }
+}
+
+apply from: 'centralized.gradle'
+apply from: 'dependencies.gradle'
+apply plugin: 'com.google.gms.google-services'
