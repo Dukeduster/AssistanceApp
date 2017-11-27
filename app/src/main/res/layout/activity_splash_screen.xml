@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="co.edu.udea.arqsoft.assistapp.SplashScreen">
 
-
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="match_parent"

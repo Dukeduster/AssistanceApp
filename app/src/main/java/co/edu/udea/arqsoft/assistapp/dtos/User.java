@@ -10,7 +10,12 @@ public class User {
     private String username;
     private String passw;
     private String rol;
+    private String name;
+    private String lastname;
+    private String cedula;
 
+    public User() {
+    }
 
     public int getId() {
         return id;
@@ -42,5 +47,29 @@ public class User {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 }

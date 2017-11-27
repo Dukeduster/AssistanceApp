@@ -157,8 +157,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Show the Up button in the action bar.
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_login);
+            try{
+                if(toolbar==null){
+                    Log.e("error", "toolbar null" );
+
+                }
+                setSupportActionBar(toolbar);
+
+            }catch (Exception e){
+               e.printStackTrace();
+
+            }
+
+
         }
     }
 
@@ -337,6 +349,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             editor.putString("user", users.get(0).getUsername());
                             editor.putString("password", users.get(0).getPassw());
                             editor.putInt("id", users.get(0).getId());
+                            editor.putString("name", users.get(0).getName());
+                            editor.putString("lastname", users.get(0).getLastname());
+                            editor.putString("cedula", users.get(0).getCedula());
+
                             editor.commit();
                             Log.e("Login Exitoso", response.message());
                             loginSuccess();

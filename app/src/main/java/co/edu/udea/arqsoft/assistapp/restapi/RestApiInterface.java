@@ -2,9 +2,13 @@ package co.edu.udea.arqsoft.assistapp.restapi;
 
 import java.util.List;
 
+import co.edu.udea.arqsoft.assistapp.dtos.Course;
 import co.edu.udea.arqsoft.assistapp.dtos.User;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -13,6 +17,10 @@ import retrofit2.http.Query;
 
 public interface RestApiInterface {
 
-    @GET("users/")
+    @GET("users")
     Call<List<User>> login(@Query("user") String user, @Query("passw") String password);
+
+    @Headers({"Accept: application/json",})
+    @POST("cursos/")
+    Call<Course> saveCourse(@Body Course course);
 }
