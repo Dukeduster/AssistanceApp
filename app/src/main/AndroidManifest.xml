@@ -2,12 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.edu.udea.arqsoft.assistapp">
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.location.gps" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
 
     <application
         android:allowBackup="true"
@@ -21,6 +28,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,7 +57,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.edu.udea.arqsoft.assistapp.MainActivity" />
         </activity>
-        <activity android:name=".Example"></activity>
+        <activity
+            android:name=".AddSessionActivity"
+            android:label="@string/title_activity_add_session"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.edu.udea.arqsoft.assistapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".BarcodeCaptureActivity"
+            android:label="@string/title_activity_add_session"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.edu.udea.arqsoft.assistapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

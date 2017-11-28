@@ -108,81 +108,165 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="TEST" name="runner-0.5" level="project" />
-    <orderEntry type="library" name="firebase-core-11.6.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="espresso-idling-resource-2.2.2" level="project" />
-    <orderEntry type="library" name="floatingsearchview-2.0.2" level="project" />
-    <orderEntry type="library" name="firebase-messaging-license-11.6.0" level="project" />
+    <orderEntry type="library" name="play-services-vision-common-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-crash-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-maps-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-plus-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-nearby-license-11.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="hamcrest-library-1.3" level="project" />
-    <orderEntry type="library" name="play-services-maps-license-11.6.0" level="project" />
+    <orderEntry type="library" name="play-services-games-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-config-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-analytics-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-11.6.2" level="project" />
     <orderEntry type="library" name="viewpropertyobjectanimator-1.2.0" level="project" />
     <orderEntry type="library" name="design-25.2.0" level="project" />
-    <orderEntry type="library" name="firebase-messaging-11.6.0" level="project" />
-    <orderEntry type="library" name="cardview-v7-25.2.0" level="project" />
-    <orderEntry type="library" name="converter-scalars-2.3.0" level="project" />
-    <orderEntry type="library" name="firebase-common-license-11.6.0" level="project" />
-    <orderEntry type="library" name="rxandroid-2.0.1" level="project" />
-    <orderEntry type="library" name="support-core-ui-25.2.0" level="project" />
+    <orderEntry type="library" name="play-services-cast-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-drive-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-ads-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-panorama-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-storage-common-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-places-license-11.6.2" level="project" />
+    <orderEntry type="library" name="palette-v7-25.2.0" level="project" />
+    <orderEntry type="library" name="play-services-safetynet-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-tagmanager-v4-impl-license-11.6.2" level="project" />
     <orderEntry type="library" name="rxjava-2.1.0" level="project" />
     <orderEntry type="library" name="support-fragment-25.2.0" level="project" />
+    <orderEntry type="library" name="firebase-dynamic-links-11.6.2" level="project" />
     <orderEntry type="library" name="support-core-utils-25.2.0" level="project" />
+    <orderEntry type="library" name="play-services-vision-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-database-license-11.6.2" level="project" />
     <orderEntry type="library" name="reactive-streams-1.0.0" level="project" />
+    <orderEntry type="library" name="firebase-crash-license-11.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
+    <orderEntry type="library" name="play-services-vision-common-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-location-11.6.2" level="project" />
     <orderEntry type="library" name="fabric-1.3.16" level="project" />
     <orderEntry type="library" name="crashlytics-2.6.7" level="project" />
-    <orderEntry type="library" name="play-services-location-11.6.0" level="project" />
+    <orderEntry type="library" name="play-services-drive-license-11.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="javax.annotation-api-1.2" level="project" />
     <orderEntry type="library" name="frag-nav-1.4.0" level="project" />
-    <orderEntry type="library" name="fab-1.6.4" level="project" />
-    <orderEntry type="library" scope="TEST" name="javawriter-2.1.1" level="project" />
+    <orderEntry type="library" name="play-services-appinvite-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-database-connection-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-places-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-games-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-appinvite-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-fitness-11.6.2" level="project" />
     <orderEntry type="library" name="appcompat-v7-25.2.0" level="project" />
-    <orderEntry type="library" name="recyclerview-v7-25.2.0" level="project" />
-    <orderEntry type="library" name="firebase-common-11.6.0" level="project" />
-    <orderEntry type="library" name="play-services-tasks-11.6.0" level="project" />
     <orderEntry type="library" name="animated-vector-drawable-25.2.0" level="project" />
-    <orderEntry type="library" name="firebase-analytics-license-11.6.0" level="project" />
-    <orderEntry type="library" name="play-services-base-11.6.0" level="project" />
-    <orderEntry type="library" name="firebase-iid-11.6.0" level="project" />
-    <orderEntry type="library" name="constraint-layout-1.0.2" level="project" />
+    <orderEntry type="library" name="play-services-plus-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-auth-api-phone-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-analytics-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-ads-lite-license-11.6.2" level="project" />
     <orderEntry type="library" name="okhttp-2.4.0" level="project" />
+    <orderEntry type="library" name="play-services-vision-11.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="hamcrest-integration-1.3" level="project" />
-    <orderEntry type="library" name="transition-25.2.0" level="project" />
+    <orderEntry type="library" name="play-services-ads-lite-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-fido-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-fitness-license-11.6.2" level="project" />
     <orderEntry type="library" name="bottom-bar-2.1.1" level="project" />
     <orderEntry type="library" name="crashlytics-core-2.3.16" level="project" />
-    <orderEntry type="library" name="play-services-base-license-11.6.0" level="project" />
-    <orderEntry type="library" name="play-services-basement-11.6.0" level="project" />
+    <orderEntry type="library" name="firebase-auth-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-base-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-awareness-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-tagmanager-api-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-gcm-license-11.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="jsr305-2.0.1" level="project" />
-    <orderEntry type="library" name="play-services-maps-11.6.0" level="project" />
-    <orderEntry type="library" name="firebase-analytics-impl-license-11.6.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="espresso-core-2.2.2" level="project" />
-    <orderEntry type="library" name="firebase-iid-license-11.6.0" level="project" />
-    <orderEntry type="library" name="butterknife-annotations-8.5.1" level="project" />
-    <orderEntry type="library" name="adapter-rxjava2-2.3.0" level="project" />
-    <orderEntry type="library" name="constraint-layout-solver-1.0.2" level="project" />
+    <orderEntry type="library" name="play-services-basement-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-location-license-11.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="rules-0.5" level="project" />
-    <orderEntry type="library" name="play-services-location-license-11.6.0" level="project" />
+    <orderEntry type="library" name="play-services-cast-framework-license-11.6.2" level="project" />
     <orderEntry type="library" name="okio-1.13.0" level="project" />
-    <orderEntry type="library" name="retrofit-2.3.0" level="project" />
-    <orderEntry type="library" name="converter-gson-2.3.0" level="project" />
-    <orderEntry type="library" name="beta-1.2.4" level="project" />
-    <orderEntry type="library" scope="TEST" name="javax.inject-1" level="project" />
-    <orderEntry type="library" name="gson-2.7" level="project" />
-    <orderEntry type="library" name="play-services-tasks-license-11.6.0" level="project" />
+    <orderEntry type="library" name="mediarouter-v7-25.2.0" level="project" />
+    <orderEntry type="library" name="play-services-wearable-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-appindexing-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-analytics-license-11.6.2" level="project" />
     <orderEntry type="library" name="eventbus-3.0.0" level="project" />
-    <orderEntry type="library" name="okhttp-3.8.0" level="project" />
+    <orderEntry type="library" name="firebase-analytics-impl-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-iid-11.6.2" level="project" />
     <orderEntry type="library" name="support-v4-25.2.0" level="project" />
     <orderEntry type="library" name="answers-1.3.12" level="project" />
     <orderEntry type="library" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" name="play-services-cast-framework-11.6.2" level="project" />
     <orderEntry type="library" name="support-media-compat-25.2.0" level="project" />
-    <orderEntry type="library" name="firebase-analytics-impl-11.6.0" level="project" />
-    <orderEntry type="library" name="firebase-analytics-11.6.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="junit-4.12" level="project" />
-    <orderEntry type="library" name="butterknife-8.5.1" level="project" />
-    <orderEntry type="library" name="play-services-basement-license-11.6.0" level="project" />
+    <orderEntry type="library" name="firebase-analytics-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-identity-11.6.2" level="project" />
     <orderEntry type="library" name="logger-1.15" level="project" />
     <orderEntry type="library" name="support-annotations-25.4.0" level="project" />
     <orderEntry type="library" name="support-vector-drawable-25.4.0" level="project" />
-    <orderEntry type="library" name="support-compat-25.4.0" level="project" />
     <orderEntry type="library" name="ShortcutBadger-1.1.13" level="project" />
+    <orderEntry type="library" name="play-services-tagmanager-v4-impl-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-core-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-awareness-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-fido-license-11.6.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="runner-0.5" level="project" />
+    <orderEntry type="library" scope="TEST" name="espresso-idling-resource-2.2.2" level="project" />
+    <orderEntry type="library" name="floatingsearchview-2.0.2" level="project" />
+    <orderEntry type="library" name="firebase-database-connection-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-nearby-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-messaging-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-ads-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-panorama-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-gass-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-messaging-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-common-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-gass-11.6.2" level="project" />
+    <orderEntry type="library" name="cardview-v7-25.2.0" level="project" />
+    <orderEntry type="library" name="converter-scalars-2.3.0" level="project" />
+    <orderEntry type="library" name="rxandroid-2.0.1" level="project" />
+    <orderEntry type="library" name="play-services-instantapps-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-analytics-impl-11.6.2" level="project" />
+    <orderEntry type="library" name="support-core-ui-25.2.0" level="project" />
+    <orderEntry type="library" name="play-services-instantapps-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-tagmanager-api-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-gcm-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-database-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-wallet-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-wallet-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-storage-common-11.6.2" level="project" />
+    <orderEntry type="library" name="fab-1.6.4" level="project" />
+    <orderEntry type="library" name="firebase-common-11.6.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="javawriter-2.1.1" level="project" />
+    <orderEntry type="library" name="play-services-cast-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-storage-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-auth-base-license-11.6.2" level="project" />
+    <orderEntry type="library" name="recyclerview-v7-25.2.0" level="project" />
+    <orderEntry type="library" name="firebase-storage-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-auth-api-phone-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-base-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-tasks-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-analytics-impl-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-wearable-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-tagmanager-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-dynamic-links-license-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-basement-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-iid-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-auth-11.6.2" level="project" />
+    <orderEntry type="library" name="constraint-layout-1.0.2" level="project" />
+    <orderEntry type="library" name="transition-25.2.0" level="project" />
+    <orderEntry type="library" name="play-services-safetynet-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-auth-11.6.2" level="project" />
+    <orderEntry type="library" name="play-services-identity-license-11.6.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="espresso-core-2.2.2" level="project" />
+    <orderEntry type="library" name="firebase-iid-license-11.6.2" level="project" />
+    <orderEntry type="library" name="butterknife-annotations-8.5.1" level="project" />
+    <orderEntry type="library" name="adapter-rxjava2-2.3.0" level="project" />
+    <orderEntry type="library" name="constraint-layout-solver-1.0.2" level="project" />
+    <orderEntry type="library" name="play-services-maps-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-config-license-11.6.2" level="project" />
+    <orderEntry type="library" name="retrofit-2.3.0" level="project" />
+    <orderEntry type="library" name="converter-gson-2.3.0" level="project" />
+    <orderEntry type="library" name="beta-1.2.4" level="project" />
+    <orderEntry type="library" name="play-services-tasks-license-11.6.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="javax.inject-1" level="project" />
+    <orderEntry type="library" name="gson-2.7" level="project" />
+    <orderEntry type="library" name="play-services-iid-license-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-analytics-impl-license-11.6.2" level="project" />
+    <orderEntry type="library" name="okhttp-3.8.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit-4.12" level="project" />
+    <orderEntry type="library" name="butterknife-8.5.1" level="project" />
+    <orderEntry type="library" name="play-services-auth-base-11.6.2" level="project" />
+    <orderEntry type="library" name="support-compat-25.4.0" level="project" />
+    <orderEntry type="library" name="play-services-tagmanager-11.6.2" level="project" />
+    <orderEntry type="library" name="firebase-appindexing-license-11.6.2" level="project" />
   </component>
 </module>

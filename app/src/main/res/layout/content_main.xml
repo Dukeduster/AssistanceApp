@@ -7,14 +7,31 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="co.edu.udea.arqsoft.assistapp.MainActivity"
     tools:showIn="@layout/app_bar_main">
-
+    <ProgressBar
+        android:id="@+id/course_main_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
     <TextView
+        android:id="@+id/no_courses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No tienes Cursos Matriculados!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

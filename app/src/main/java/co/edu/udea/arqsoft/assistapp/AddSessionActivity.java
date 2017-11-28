@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,26 +19,25 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import co.edu.udea.arqsoft.assistapp.dtos.Course;
+import co.edu.udea.arqsoft.assistapp.dtos.Session;
 import co.edu.udea.arqsoft.assistapp.dtos.User;
 import co.edu.udea.arqsoft.assistapp.restapi.RestClientImpl;
 import co.edu.udea.arqsoft.assistapp.utils.DatePickerFragment;
 import co.edu.udea.arqsoft.assistapp.utils.NetworkUtilities;
+import co.edu.udea.arqsoft.assistapp.utils.TimePickerFragment;
 import io.fabric.sdk.android.services.common.SafeToast;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A login screen that offers login via email/password.
- */
-public class AddCourseActivity extends AppCompatActivity {
+public class AddSessionActivity extends AppCompatActivity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -54,34 +54,49 @@ public class AddCourseActivity extends AppCompatActivity {
 
     private View mProgressView;
     private View mLoginFormView;
-    private EditText mDateFinish;
+    private EditText mDateSession;
+    private EditText mTimeSession;
+    private EditText mCodeSession;
     private AutoCompleteTextView mDescription;
-    private AutoCompleteTextView mNameCourse;
+    private AutoCompleteTextView mNameSession;
+    private String dateFormatted;
+    private String timeFormatted;
+    private int courseId;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_course);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_course);
+        setContentView(R.layout.activity_add_session);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_session);
         setSupportActionBar(toolbar);
         setupActionBar();
+        courseId = getIntent().getIntExtra("idCourse", 0);
 
         // Set up the login form.
-       // mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-       // populateAutoComplete();
-        mDateFinish = (EditText) findViewById(R.id.date_expire);
-        mDateFinish.setOnClickListener(new OnClickListener() {
+        // mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        // populateAutoComplete();
+        mDateSession = (EditText) findViewById(R.id.date_expire);
+        mDateSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog();
             }
         });
-        mLoginFormView = findViewById(R.id.course_form);
-        mProgressView = findViewById(R.id.course_progress);
-        mNameCourse = (AutoCompleteTextView) findViewById(R.id.name);
+
+        mTimeSession = (EditText) findViewById(R.id.time_expire);
+        mTimeSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+            }
+        });
+        mLoginFormView = findViewById(R.id.session_form);
+        mProgressView = findViewById(R.id.session_progress);
+        mNameSession = (AutoCompleteTextView) findViewById(R.id.name);
         mDescription = (AutoCompleteTextView) findViewById(R.id.description);
+        mCodeSession = (EditText) findViewById(R.id.code_session);
 
     }
 
@@ -91,7 +106,22 @@ public class AddCourseActivity extends AppCompatActivity {
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 // +1 because january is zero
                 final String selectedDate = year + "-" + String.format("%02d", (month+1)) + "-" + String.format("%02d", day);
-                mDateFinish.setText(selectedDate);
+                mDateSession.setText(selectedDate);
+                dateFormatted=year+""+String.format("%02d", (month+1))+""+String.format("%02d", day);
+            }
+        });
+        newFragment.show(this.getFragmentManager(), "datePicker");
+    }
+
+    private void showTimePickerDialog() {
+        TimePickerFragment newFragment = TimePickerFragment.newInstance(new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int minutes) {
+                // +1 because january is zero
+
+                final String selectedDate = String.format("%02d", hour) + ":" +String.format("%02d", minutes);
+                mTimeSession.setText(selectedDate);
+                timeFormatted=String.format("%02d", hour)+""+String.format("%02d", minutes);
             }
         });
         newFragment.show(this.getFragmentManager(), "datePicker");
@@ -125,17 +155,17 @@ public class AddCourseActivity extends AppCompatActivity {
     /**
 
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
+     private boolean isEmailValid(String email) {
+     //TODO: Replace this with your own logic
+     return email.contains("@");
+     }
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
+     private boolean isPasswordValid(String password) {
+     //TODO: Replace this with your own logic
+     return password.length() > 4;
+     }
 
-    /**
+     /**
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -186,7 +216,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
             case R.id.save_curso:
                 Log.e("menu", "after case");
-                saveCourse();
+                saveSession();
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
@@ -196,29 +226,27 @@ public class AddCourseActivity extends AppCompatActivity {
         }
     }
 
-    private void saveCourse() {
+    private void saveSession() {
         User user = getUserFromPrefs();
         Log.e("account user", user.toString());
         Log.e("network", String.valueOf(NetworkUtilities.isConnected(this)));
 
         if(NetworkUtilities.isConnected(this)){
             showProgress(true);
-            Course curso= new Course();
-            curso.setDescripcion(this.mDescription.getText().toString());
-            curso.setFechaExpiracion(this.mDateFinish.getText().toString()+"T00:00:00");
-            curso.setName(this.mNameCourse.getText().toString());
-            curso.setOwner(user.getId());
-            curso.setHabilitado(Boolean.TRUE);
-            Call<Course> call = RestClientImpl.getClientLogin().saveCourse(curso);
-            call.enqueue(new Callback<Course>() {
+            Session session= new Session();
+            session.setDescripcion(this.mDescription.getText().toString());
+            session.setFechaSesion(this.mDateSession.getText().toString()+"T"+this.mTimeSession.getText()+":00");
+            session.setId(dateFormatted+timeFormatted+courseId+mCodeSession.getText().toString());
+            session.setName(this.mNameSession.getText().toString());
+            session.setCurso(courseId);
+            Call<Session> call = RestClientImpl.getClientLogin().saveSession(session);
+            call.enqueue(new Callback<Session>() {
                 @Override
-                public void onResponse(Call<Course> call, Response<Course> response) {
-                    Course curso = response.body();
+                public void onResponse(Call<Session> call, Response<Session> response) {
+                    Session session = response.body();
                     if(response.code()==201){
-                        Toast toast = SafeToast.makeText(getApplicationContext(),"Curso " + curso.getName() + "Guardado.", SafeToast.LENGTH_SHORT );
-                        Snackbar snackbar = Snackbar
-                                .make(mLoginFormView, "Curso " + curso.getName() + " Guardado.", Snackbar.LENGTH_LONG);
-                        //snackbar.show();
+                        Toast toast = SafeToast.makeText(getApplicationContext(),"Sesión " +
+                                session.getName() + "Guardada.", SafeToast.LENGTH_SHORT );
                         toast.show();
                         saveSuccess();
                     }else{
@@ -231,12 +259,11 @@ public class AddCourseActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Course> call, Throwable t) {
+                public void onFailure(Call<Session> call, Throwable t) {
                     Log.e("Error Duke", t.getMessage());
                     Snackbar snackbar = Snackbar
                             .make(mLoginFormView, "Ha ocurrido un error" , Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    // assertTrue(false);
                 }
             });
         }else{
@@ -263,17 +290,20 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 
 
+
     public void saveSuccess(){
-        Intent in = new Intent("LOADCOURSES");
+        Intent in = new Intent("LOADSESSIONS");
+        in.putExtra("course",courseId);
         sendBroadcast(in);
         this.finish();
     }
 
     @Override
     public void onDestroy(){
+        Intent in = new Intent("LOADSESSIONS");
+        in.putExtra("course",courseId);
+        sendBroadcast(in);
         super.onDestroy();
 
     }
-
 }
-
