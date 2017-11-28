@@ -34,4 +34,8 @@ public interface RestApiInterface {
     @Headers({"Accept: application/json",})
     @POST("asistencia/")
     Call<Asistencia> saveAssist(@Body Asistencia assist);
+    @GET("getAsistenciaByUser")
+    Call<List<Asistencia>> getAssistByUser(@Query("usr") int estudiante);
+    @GET("getAsistenciaBySession")
+    Call<List<Asistencia>> getAssistBySession(@Query("session") String session);
 }

@@ -11,15 +11,12 @@
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Ver Asistencia" />
+            android:title="Ver Mi Asistencia" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Cursos Matriculados" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Matricular Curso" />
+            android:title="Mis Cursos" />
+
     </group>
 
     <item android:title="Communicate">

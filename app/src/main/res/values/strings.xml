@@ -46,6 +46,13 @@
     <!-- Strings related to session Card -->
     <string name="assistance_btn_card">Ver Asistencia</string>
     <string name="qr_link_btn_card">Ver QR</string>
+    <!-- Strings related to Assist Card -->
+    <string name="sess_assist_card">Sesión:</string>
+    <string name="stu_assist_card">Id Estudiante:</string>
+    <string name="date_assist_card">Fecha Asistencia :</string>
+    <string name="lat_assist_card">Latitud:</string>
+    <string name="lon_assist_card">Longitud:</string>
+    <string name="btn_assist_map">Ver Mapa</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
@@ -129,4 +136,5 @@
     <string name="barcode_success">Barcode read successfully</string>
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

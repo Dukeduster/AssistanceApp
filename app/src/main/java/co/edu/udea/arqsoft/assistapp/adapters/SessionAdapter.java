@@ -72,6 +72,9 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.RequestV
                 //Intent intent = new Intent(context, MapsActivity.class);
                 //intent.putExtra("route",(Parcelable) routes.get(index));
                 //context.startActivity(intent);
+                Intent in = new Intent("LOADASSIST");
+                in.putExtra("session",sessions.get(index).getId());
+                context.sendBroadcast(in);
 
             }
         });

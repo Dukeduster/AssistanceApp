@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import co.edu.udea.arqsoft.assistapp.adapters.AsistenciaAdapter;
 import co.edu.udea.arqsoft.assistapp.adapters.CourseAdapter;
 import co.edu.udea.arqsoft.assistapp.adapters.SessionAdapter;
 import co.edu.udea.arqsoft.assistapp.dtos.Asistencia;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity
     RecyclerView recyclerView;
     private String currentView = "COURSES";
     private int idCourse = 0;
+    private String idSession;
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final String TAG = "BarcodeMain";
     private int MY_PERMISSIONS_REQUEST_GPS;
@@ -81,6 +83,10 @@ public class MainActivity extends AppCompatActivity
             } else if ("LOADCOURSES".equals(intent.getAction())) {
                 loadCourses();
                 currentView = "SESSIONS";
+            }else if ("LOADASSIST".equals(intent.getAction())) {
+                String idSession = intent.getStringExtra("session");
+                loadAssistanceBySession(idSession);
+
             }
 
         }
@@ -119,8 +125,10 @@ public class MainActivity extends AppCompatActivity
         recyclerView = (RecyclerView) findViewById(R.id.scrollView);
         IntentFilter filterS = new IntentFilter("LOADSESSIONS");
         IntentFilter filterC = new IntentFilter("LOADCOURSES");
+        IntentFilter filterA = new IntentFilter("LOADASSIST");
         this.registerReceiver(rec, filterS);
         this.registerReceiver(rec, filterC);
+        this.registerReceiver(rec, filterA);
         loadCourses();
         askPermissions();
     }
@@ -131,9 +139,9 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (currentView.equals("SESSIONS")) {
-            getSupportActionBar().setTitle("Mis Cursos");
-            currentView = "COURSES";
             loadCourses();
+        }else if (currentView.equals("ASSISTBYSESSION")) {
+            loadSessions(idCourse);
         } else {
             super.onBackPressed();
         }
@@ -174,11 +182,9 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra(BarcodeCaptureActivity.UseFlash, false);
             startActivityForResult(intent, RC_BARCODE_CAPTURE);
         } else if (id == R.id.nav_gallery) {
-
+            loadAssistanceByUser();
         } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+            loadCourses();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -192,6 +198,8 @@ public class MainActivity extends AppCompatActivity
 
 
     private void loadCourses() {
+        getSupportActionBar().setTitle("Mis Cursos");
+        currentView = "COURSES";
         User user = getUserFromPrefs();
         Log.e("client route", user.getName());
         Call<List<Course>> call = RestClientImpl.getClientLogin()
@@ -224,6 +232,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadSessions(int idCourse) {
+        getSupportActionBar().setTitle("Sesiones");
+        currentView = "SESSIONS";
         User user = getUserFromPrefs();
         Log.e("client session", user.getName());
         Call<List<Session>> call = RestClientImpl.getClientLogin()
@@ -257,6 +267,92 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    private void loadAssistanceBySession(String idSession) {
+        currentView = "ASSISTBYSESSION";
+        getSupportActionBar().setTitle("Asistencias");
+        User user = getUserFromPrefs();
+        Log.e("client session", user.getName());
+        Call<List<Asistencia>> call = RestClientImpl.getClientLogin()
+                .getAssistBySession(idSession);
+        call.enqueue(new Callback<List<Asistencia>>() {
+            @Override
+            public void onResponse(Call<List<Asistencia>> call, Response<List<Asistencia>> response) {
+                Log.e("code", "" + response.code());
+                List<Asistencia> asistencias = response.body();
+                if (asistencias != null) {
+                    Log.e("numero de asistencias", "" + asistencias.size());
+                    showAssistance(asistencias);
+                    TextView txtView = (TextView) findViewById(R.id.no_courses);
+                    txtView.setVisibility(View.INVISIBLE);
+                } else {
+                    Log.e("no hay nada", "" + response.code());
+                    asistencias = new LinkedList<>();
+                    showAssistance(asistencias);
+                    TextView txtView = (TextView) findViewById(R.id.no_courses);
+                    txtView.setText("No hay asistencias");
+                    txtView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Asistencia>> call, Throwable t) {
+                Log.e("Error Loading Routes", t.getMessage());
+                if (t.getMessage().startsWith("java.lang.IllegalStateException")) {
+                    Log.e("Entro one route", t.getMessage());
+                }
+            }
+        });
+
+    }
+
+    private void loadAssistanceByUser() {
+        currentView = "ASSISTBYUSER";
+        getSupportActionBar().setTitle("Asistencias");
+        User user = getUserFromPrefs();
+        Log.e("client session", user.getName());
+        Call<List<Asistencia>> call = RestClientImpl.getClientLogin()
+                .getAssistByUser(user.getId());
+        call.enqueue(new Callback<List<Asistencia>>() {
+            @Override
+            public void onResponse(Call<List<Asistencia>> call, Response<List<Asistencia>> response) {
+                Log.e("code", "" + response.code());
+                List<Asistencia> asistencias = response.body();
+                if (asistencias != null) {
+                    Log.e("numero de asistencias", "" + asistencias.size());
+                    showAssistance(asistencias);
+                    TextView txtView = (TextView) findViewById(R.id.no_courses);
+                    txtView.setVisibility(View.INVISIBLE);
+                } else {
+                    Log.e("no hay nada", "" + response.code());
+                    asistencias = new LinkedList<>();
+                    showAssistance(asistencias);
+                    TextView txtView = (TextView) findViewById(R.id.no_courses);
+                    txtView.setText("No hay asistencias");
+                    txtView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Asistencia>> call, Throwable t) {
+                Log.e("Error Loading Routes", t.getMessage());
+                if (t.getMessage().startsWith("java.lang.IllegalStateException")) {
+                    Log.e("Entro one route", t.getMessage());
+                }
+            }
+        });
+
+    }
+
+    private void showAssistance(List<Asistencia> asistencias) {
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager lManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(lManager);
+        RecyclerView.Adapter adapter = new AsistenciaAdapter(asistencias, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.smoothScrollToPosition(adapter.getItemCount());
+        recyclerView.smoothScrollToPosition(0);
     }
 
     private void showCourses(List<Course> courses) {
