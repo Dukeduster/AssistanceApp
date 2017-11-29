@@ -47,7 +47,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via username/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
@@ -57,16 +57,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -181,14 +173,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
-
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
@@ -209,13 +196,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         }
-        /*
-        else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }*/
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -227,10 +207,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
@@ -327,21 +303,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
+    /**
+     * Valida las credenciales del usuario
+     * @param user provided username from TextView
+     * @param password provided password from TextView
+     */
     public  void loginProcess(final String  user,  final String password){
-
-        //Context context = this.getApplicationContext();
         Log.e("account user", user.toString());
         Log.e("network", String.valueOf(NetworkUtilities.isConnected(this)));
+        //valida conexión a internet
         if(NetworkUtilities.isConnected(this)){
             showProgress(true);
+            //Invoking RestApi interface
             Call<List<User>> call = RestClientImpl.getClientLogin().login(user, password);
             call.enqueue(new Callback<List<User>>() {
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                     List<User> users = response.body();
-
                     if(users!= null&&users.size()>0){
                         if(response.code()==200){
+                            //Si el proceso de inicio de sesion es exitoso guarda las credenciales
                             SharedPreferences prefs =
                                     getSharedPreferences("AssistPrefs", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
@@ -352,7 +333,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             editor.putString("name", users.get(0).getName());
                             editor.putString("lastname", users.get(0).getLastname());
                             editor.putString("cedula", users.get(0).getCedula());
-
                             editor.commit();
                             Log.e("Login Exitoso", response.message());
                             loginSuccess();
@@ -369,8 +349,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 .make(mLoginFormView, "CREDENCIALES ERRONEAS" , Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }
-
-                    //assertTrue(u.getEmail()Error Login in, );
                 }
 
                 @Override
@@ -379,77 +357,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     Snackbar snackbar = Snackbar
                             .make(mLoginFormView, "CREDENCIALES ERRONEAS" , Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    // assertTrue(false);
                 }
             });
         }else{
             Snackbar snackbar = Snackbar
-                    .make(mLoginFormView, "Sin Conexion a internet" , Snackbar.LENGTH_LONG);
+                    .make(mLoginFormView, "Sin Conexión a internet" , Snackbar.LENGTH_LONG);
             snackbar.show();
         }
     }
 
+    /**
+     * Inicia la actividad principal si el logueo es exitoso
+     */
     public void loginSuccess(){
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
         this.finish();
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 

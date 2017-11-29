@@ -16,20 +16,26 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import co.edu.udea.arqsoft.assistapp.AddSessionActivity;
-import co.edu.udea.arqsoft.assistapp.MainActivity;
 import co.edu.udea.arqsoft.assistapp.MapsActivity;
 import co.edu.udea.arqsoft.assistapp.R;
 import co.edu.udea.arqsoft.assistapp.dtos.Asistencia;
 
 /**
+ * Adapter para Datos de Asistencia
+ * @Using butterknife
  * Created by AW 13 on 28/11/2017.
  */
 
-public class AsistenciaAdapter extends RecyclerView.Adapter<AsistenciaAdapter.RequestViewHolder> implements RecyclerView.OnItemTouchListener {
+public class AsistenciaAdapter extends RecyclerView.Adapter<AsistenciaAdapter.RequestViewHolder>
+        implements RecyclerView.OnItemTouchListener {
 
-    private Context context;
     static List<Asistencia> asistencias;
+    private Context context;
+
+    public AsistenciaAdapter(List<Asistencia> asistencias, Context context) {
+        AsistenciaAdapter.asistencias = asistencias;
+        this.context = context;
+    }
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -46,16 +52,12 @@ public class AsistenciaAdapter extends RecyclerView.Adapter<AsistenciaAdapter.Re
 
     }
 
-    public AsistenciaAdapter(List<Asistencia> asistencias, Context context) {
-        AsistenciaAdapter.asistencias = asistencias;
-        this.context = context;
-    }
-
     @Override
     public AsistenciaAdapter.RequestViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.assist_card, viewGroup, false);
         return new AsistenciaAdapter.RequestViewHolder(view, context);
     }
+
 
     @Override
     public void onBindViewHolder(final AsistenciaAdapter.RequestViewHolder viewHolder, int i) {
@@ -68,10 +70,10 @@ public class AsistenciaAdapter extends RecyclerView.Adapter<AsistenciaAdapter.Re
         viewHolder.buttonMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO mapActivitty
+                //Se carga Actividad Mapa con los valores de la tarjeta
                 Intent i = new Intent(context, MapsActivity.class);
-                i.putExtra("lat",asistencias.get(index).getLatitud());
-                i.putExtra("lon",asistencias.get(index).getLongitud());
+                i.putExtra("lat", asistencias.get(index).getLatitud());
+                i.putExtra("lon", asistencias.get(index).getLongitud());
                 context.startActivity(i);
 
             }
@@ -79,8 +81,7 @@ public class AsistenciaAdapter extends RecyclerView.Adapter<AsistenciaAdapter.Re
         viewHolder.buttonCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlQr+sessions.get(index).getId()));
-                //context.startActivity(browserIntent);
+                //TODO Ver info Curso
             }
         });
         setAnimation(viewHolder.viewParent);

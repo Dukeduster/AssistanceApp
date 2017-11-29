@@ -46,6 +46,12 @@ import co.edu.udea.arqsoft.assistapp.camera.CameraSourcePreview;
 import co.edu.udea.arqsoft.assistapp.camera.GraphicOverlay;
 
 /**
+ * **********Tomado de Ejemplo de implementacion de google Mobile Vision API***********
+ * {@url https://developers.google.com/vision/}                                       *
+ * {@url https://github.com/googlesamples/android-vision}                             *
+ * ************Hace uso de clases en el paquete****************************************
+ * {@link co.edu.udea.arqsoft.assistapp}                                              *
+ * ************************************************************************************
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.

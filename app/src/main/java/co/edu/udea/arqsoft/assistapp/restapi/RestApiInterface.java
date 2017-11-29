@@ -14,6 +14,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
+ * Interfaz para consumo de rest API
+ * @Using Retrofit 2
  * Created by AW 13 on 30/10/2017.
  */
 

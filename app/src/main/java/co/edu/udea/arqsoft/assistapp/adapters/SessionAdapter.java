@@ -18,18 +18,25 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.edu.udea.arqsoft.assistapp.R;
-import co.edu.udea.arqsoft.assistapp.dtos.Course;
 import co.edu.udea.arqsoft.assistapp.dtos.Session;
 
 /**
+ * Adapter para Datos de Sesiones
+ * @Using butterknife
  * Created by AW 13 on 26/11/2017.
  */
 
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.RequestViewHolder> implements RecyclerView.OnItemTouchListener {
 
-    private Context context;
     static List<Session> sessions;
+    //URL Google Chart API(Infographics)
     public final String urlQr="https://chart.googleapis.com/chart?cht=qr&chs=250x250&chl=";
+    private Context context;
+
+    public SessionAdapter(List<Session> sessions, Context context) {
+        SessionAdapter.sessions = sessions;
+        this.context = context;
+    }
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -44,11 +51,6 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.RequestV
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
-    }
-
-    public SessionAdapter(List<Session> sessions, Context context) {
-        SessionAdapter.sessions = sessions;
-        this.context = context;
     }
 
     @Override
@@ -67,11 +69,6 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.RequestV
         viewHolder.buttonAssist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.e("Indice", String.valueOf(index));
-                //Toast.makeText(context,"indice: "+String.valueOf(index),Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(context, MapsActivity.class);
-                //intent.putExtra("route",(Parcelable) routes.get(index));
-                //context.startActivity(intent);
                 Intent in = new Intent("LOADASSIST");
                 in.putExtra("session",sessions.get(index).getId());
                 context.sendBroadcast(in);
@@ -81,11 +78,6 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.RequestV
         viewHolder.buttonLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.e("Indice", String.valueOf(index));
-                //Toast.makeText(context,"indice: "+String.valueOf(index),Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(context, MapsActivity.class);
-                //intent.putExtra("route",(Parcelable) routes.get(index));
-                //context.startActivity(intent);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlQr+sessions.get(index).getId()));
                 context.startActivity(browserIntent);
             }

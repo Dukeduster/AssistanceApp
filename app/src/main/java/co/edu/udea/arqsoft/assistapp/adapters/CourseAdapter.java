@@ -20,13 +20,20 @@ import co.edu.udea.arqsoft.assistapp.R;
 import co.edu.udea.arqsoft.assistapp.dtos.Course;
 
 /**
+ * Adapter para Datos de Cursos
+ * @Using butterknife
  * Created by AW 13 on 26/11/2017.
  */
 
- public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.RequestViewHolder> implements RecyclerView.OnItemTouchListener {
+public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.RequestViewHolder> implements RecyclerView.OnItemTouchListener {
 
-    private Context context;
     static List<Course> courses;
+    private Context context;
+
+    public CourseAdapter(List<Course> courses, Context context) {
+        CourseAdapter.courses = courses;
+        this.context = context;
+    }
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -43,11 +50,6 @@ import co.edu.udea.arqsoft.assistapp.dtos.Course;
 
     }
 
-    public CourseAdapter(List<Course> courses, Context context) {
-        CourseAdapter.courses = courses;
-        this.context = context;
-    }
-
     @Override
     public CourseAdapter.RequestViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.course_card, viewGroup, false);
@@ -58,19 +60,13 @@ import co.edu.udea.arqsoft.assistapp.dtos.Course;
     public void onBindViewHolder(final CourseAdapter.RequestViewHolder viewHolder, final int i) {
         viewHolder.courseName.setText(courses.get(i).getName());
         viewHolder.dateExpire.setText(courses.get(i).getFechaExpiracion());
-        // Log.e("statusRoute", routes.get())
         viewHolder.description.setText(courses.get(i).getDescripcion());
         final Integer index = i;
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.e("Indice", String.valueOf(index));
-                //Toast.makeText(context,"indice: "+String.valueOf(index),Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(context, MapsActivity.class);
-                //intent.putExtra("route",(Parcelable) routes.get(index));
-                //context.startActivity(intent);
                 Intent in = new Intent("LOADSESSIONS");
-                in.putExtra("course",courses.get(index).getId());
+                in.putExtra("course", courses.get(index).getId());
                 context.sendBroadcast(in);
             }
         });

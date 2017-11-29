@@ -1,6 +1,5 @@
 package co.edu.udea.arqsoft.assistapp;
 
-import android.*;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -33,7 +31,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -60,17 +57,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    private static final int RC_BARCODE_CAPTURE = 9001;
+    private static final String TAG = "BarcodeMain";
     RecyclerView recyclerView;
+    LatLng myPos;
     private String currentView = "COURSES";
     private int idCourse = 0;
     private String idSession;
-    private static final int RC_BARCODE_CAPTURE = 9001;
-    private static final String TAG = "BarcodeMain";
-    private int MY_PERMISSIONS_REQUEST_GPS;
-    private int MY_PERMISSIONS_REQUEST_GPS_COARSE;
-    private boolean permissionsGranted=false;
-    LatLng myPos;
-
+    //Receiver que se encarga de mostrar las vistas asociadas a las operaciones de usuario desde otras actividades
     BroadcastReceiver rec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -83,14 +77,16 @@ public class MainActivity extends AppCompatActivity
             } else if ("LOADCOURSES".equals(intent.getAction())) {
                 loadCourses();
                 currentView = "SESSIONS";
-            }else if ("LOADASSIST".equals(intent.getAction())) {
-                String idSession = intent.getStringExtra("session");
+            } else if ("LOADASSIST".equals(intent.getAction())) {
+                idSession = intent.getStringExtra("session");
                 loadAssistanceBySession(idSession);
-
             }
 
         }
     };
+    private int MY_PERMISSIONS_REQUEST_GPS;
+    private int MY_PERMISSIONS_REQUEST_GPS_COARSE;
+    private boolean permissionsGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.scrollView);
+        //Registros de los intents para los receivers
         IntentFilter filterS = new IntentFilter("LOADSESSIONS");
         IntentFilter filterC = new IntentFilter("LOADCOURSES");
         IntentFilter filterA = new IntentFilter("LOADASSIST");
@@ -133,6 +130,9 @@ public class MainActivity extends AppCompatActivity
         askPermissions();
     }
 
+    /**
+     * Muestra las vista anterior  según la vista actual
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else if (currentView.equals("SESSIONS")) {
             loadCourses();
-        }else if (currentView.equals("ASSISTBYSESSION")) {
+        } else if (currentView.equals("ASSISTBYSESSION")) {
             loadSessions(idCourse);
         } else {
             super.onBackPressed();
@@ -175,7 +175,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        //Menu
+        //Registro de asistencia invoca la actividad para captura de codigo QR
         if (id == R.id.nav_camera) {
             Intent intent = new Intent(this, BarcodeCaptureActivity.class);
             intent.putExtra(BarcodeCaptureActivity.AutoFocus, false);
@@ -196,7 +197,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
+    /**
+     * Consume Api rest para el recurso Cursos
+     */
     private void loadCourses() {
         getSupportActionBar().setTitle("Mis Cursos");
         currentView = "COURSES";
@@ -210,12 +213,10 @@ public class MainActivity extends AppCompatActivity
                 Log.e("code", "" + response.code());
                 List<Course> courses = response.body();
                 if (courses != null) {
-                    Log.e("numero de cursos", "" + courses.size());
                     showCourses(courses);
                     TextView txtView = (TextView) findViewById(R.id.no_courses);
                     txtView.setVisibility(View.INVISIBLE);
                 } else {
-                    Log.e("no hay nada", "" + response.code());
                     TextView txtView = (TextView) findViewById(R.id.no_courses);
                     txtView.setVisibility(View.VISIBLE);
                 }
@@ -223,19 +224,21 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<List<Course>> call, Throwable t) {
-                Log.e("Error Loading Routes", t.getMessage());
                 if (t.getMessage().startsWith("java.lang.IllegalStateException")) {
-                    Log.e("Entro one route", t.getMessage());
+                    Log.e("Error", t.getMessage());
                 }
             }
         });
     }
 
+    /**
+     * Carga las sesiones de un Curso dado
+     *
+     * @param idCourse id del curso
+     */
     private void loadSessions(int idCourse) {
         getSupportActionBar().setTitle("Sesiones");
         currentView = "SESSIONS";
-        User user = getUserFromPrefs();
-        Log.e("client session", user.getName());
         Call<List<Session>> call = RestClientImpl.getClientLogin()
                 .getSessions(idCourse);
         call.enqueue(new Callback<List<Session>>() {
@@ -244,7 +247,6 @@ public class MainActivity extends AppCompatActivity
                 Log.e("code", "" + response.code());
                 List<Session> sessions = response.body();
                 if (sessions != null) {
-                    Log.e("numero de cursos", "" + sessions.size());
                     showSessions(sessions);
                     TextView txtView = (TextView) findViewById(R.id.no_courses);
                     txtView.setVisibility(View.INVISIBLE);
@@ -260,20 +262,23 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<List<Session>> call, Throwable t) {
-                Log.e("Error Loading Routes", t.getMessage());
                 if (t.getMessage().startsWith("java.lang.IllegalStateException")) {
-                    Log.e("Entro one route", t.getMessage());
+                    Log.e("Error", t.getMessage());
                 }
             }
         });
 
     }
 
+    /**
+     * Carga la asistenca de una sesion del curso
+     *
+     * @param idSession id de sesion
+     */
+
     private void loadAssistanceBySession(String idSession) {
         currentView = "ASSISTBYSESSION";
         getSupportActionBar().setTitle("Asistencias");
-        User user = getUserFromPrefs();
-        Log.e("client session", user.getName());
         Call<List<Asistencia>> call = RestClientImpl.getClientLogin()
                 .getAssistBySession(idSession);
         call.enqueue(new Callback<List<Asistencia>>() {
@@ -287,7 +292,6 @@ public class MainActivity extends AppCompatActivity
                     TextView txtView = (TextView) findViewById(R.id.no_courses);
                     txtView.setVisibility(View.INVISIBLE);
                 } else {
-                    Log.e("no hay nada", "" + response.code());
                     asistencias = new LinkedList<>();
                     showAssistance(asistencias);
                     TextView txtView = (TextView) findViewById(R.id.no_courses);
@@ -298,20 +302,21 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<List<Asistencia>> call, Throwable t) {
-                Log.e("Error Loading Routes", t.getMessage());
                 if (t.getMessage().startsWith("java.lang.IllegalStateException")) {
-                    Log.e("Entro one route", t.getMessage());
+                    Log.e("Error", t.getMessage());
                 }
             }
         });
 
     }
 
+    /**
+     * Carga la asistenca de una sesion por usuario
+     */
     private void loadAssistanceByUser() {
         currentView = "ASSISTBYUSER";
         getSupportActionBar().setTitle("Asistencias");
         User user = getUserFromPrefs();
-        Log.e("client session", user.getName());
         Call<List<Asistencia>> call = RestClientImpl.getClientLogin()
                 .getAssistByUser(user.getId());
         call.enqueue(new Callback<List<Asistencia>>() {
@@ -320,12 +325,10 @@ public class MainActivity extends AppCompatActivity
                 Log.e("code", "" + response.code());
                 List<Asistencia> asistencias = response.body();
                 if (asistencias != null) {
-                    Log.e("numero de asistencias", "" + asistencias.size());
                     showAssistance(asistencias);
                     TextView txtView = (TextView) findViewById(R.id.no_courses);
                     txtView.setVisibility(View.INVISIBLE);
                 } else {
-                    Log.e("no hay nada", "" + response.code());
                     asistencias = new LinkedList<>();
                     showAssistance(asistencias);
                     TextView txtView = (TextView) findViewById(R.id.no_courses);
@@ -336,15 +339,19 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<List<Asistencia>> call, Throwable t) {
-                Log.e("Error Loading Routes", t.getMessage());
                 if (t.getMessage().startsWith("java.lang.IllegalStateException")) {
-                    Log.e("Entro one route", t.getMessage());
+                    Log.e("Error", t.getMessage());
                 }
             }
         });
 
     }
 
+    /**
+     * Carga el adaptador para cars de Asistencia
+     *
+     * @param asistencias lista de objetos Asistencia
+     */
     private void showAssistance(List<Asistencia> asistencias) {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager lManager = new LinearLayoutManager(this);
@@ -355,6 +362,11 @@ public class MainActivity extends AppCompatActivity
         recyclerView.smoothScrollToPosition(0);
     }
 
+    /**
+     * Carga el adaptador para cars de Cursos
+     *
+     * @param courses lista de objetos Cursos
+     */
     private void showCourses(List<Course> courses) {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager lManager = new LinearLayoutManager(this);
@@ -364,6 +376,12 @@ public class MainActivity extends AppCompatActivity
         recyclerView.smoothScrollToPosition(adapter.getItemCount());
         recyclerView.smoothScrollToPosition(0);
     }
+
+    /**
+     * Carga el adaptador para cards de Sesiones
+     *
+     * @param sessions lista de objetos Sesiones
+     */
 
     private void showSessions(List<Session> sessions) {
         recyclerView.setHasFixedSize(true);
@@ -375,7 +393,11 @@ public class MainActivity extends AppCompatActivity
         recyclerView.smoothScrollToPosition(0);
     }
 
-
+    /**
+     * Carga los datos del usuario logueado
+     *
+     * @return
+     */
     private User getUserFromPrefs() {
         SharedPreferences prefs =
                 getSharedPreferences("AssistPrefs", Context.MODE_PRIVATE);
@@ -403,8 +425,10 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
+                    //Captura de codigo QR
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
                     Log.e("Barcode read: ", barcode.displayValue);
+                    //Reporte  de asistencia
                     saveAssist(barcode.displayValue);
                 } else {
                     Log.e("Error Barcode", "No barcode captured intent data is null");
@@ -418,19 +442,21 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    public void saveAssist(String barcodeParam)  {
+    /**
+     * Guarda la asistencia
+     *
+     * @param barcodeParam Codigo QR ya leido
+     */
+    public void saveAssist(String barcodeParam) {
         User user = getUserFromPrefs();
-        Log.e("account user", user.toString());
-        Log.e("network", String.valueOf(NetworkUtilities.isConnected(this)));
         String barcode = barcodeParam.trim();
         final Asistencia assist = new Asistencia();
         assist.setSesion(barcode);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String day = dateFormat.format(new Date());
         dateFormat = new SimpleDateFormat("HH:mm:ss");
-        String hour =dateFormat.format(new Date());
-        assist.setFechaAsistencia(day+"T"+hour);
+        String hour = dateFormat.format(new Date());
+        assist.setFechaAsistencia(day + "T" + hour);
         assist.setEstudiante(user.getId());
         updatePosition();
 
@@ -447,48 +473,38 @@ public class MainActivity extends AppCompatActivity
             assist.setLatitud(0D);
             assist.setLongitud(0D);
         }
-
-        Log.e("id", ""+assist.getId());
-        Log.e("FechaReporte", ""+assist.getFechaAsistencia());
-        Log.e("session", ""+assist.getSesion());
-        Log.e("est", ""+assist.getEstudiante());
-        Log.e("lat", ""+assist.getLatitud());
-        Log.e("lon", ""+assist.getLongitud());
-        if(NetworkUtilities.isConnected(this)){
-
+        if (NetworkUtilities.isConnected(this)) {
             Call<Asistencia> call = RestClientImpl.getClientLogin().saveAssist(assist);
             call.enqueue(new Callback<Asistencia>() {
                 @Override
                 public void onResponse(Call<Asistencia> call, Response<Asistencia> response) {
                     Asistencia assistR = response.body();
-                    if(response.code()==201){
-                        Toast toast = SafeToast.makeText(getApplicationContext(),"Asistencia Reportada " , SafeToast.LENGTH_SHORT );
+                    if (response.code() == 201) {
+                        Toast toast = SafeToast.makeText(getApplicationContext(), "Asistencia Reportada ", SafeToast.LENGTH_SHORT);
                         toast.show();
-                    }else{
-                        Log.e("Response code", ""+response.code());
-                        Log.e("Response code", ""+response.body());
-                        Toast toast = SafeToast.makeText(getApplicationContext(),"Ha ocurrido un Error  " , SafeToast.LENGTH_SHORT );
+                    } else {
+                        Toast toast = SafeToast.makeText(getApplicationContext(), "Ha ocurrido un Error  ", SafeToast.LENGTH_SHORT);
                         toast.show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Asistencia> call, Throwable t) {
-                    Log.e("Error Duke", t.getMessage());
-                    Toast toast = SafeToast.makeText(getApplicationContext(),"Ha ocurrido un Error  " , SafeToast.LENGTH_SHORT );
+                    Toast toast = SafeToast.makeText(getApplicationContext(), "Ha ocurrido un Error  ", SafeToast.LENGTH_SHORT);
                     toast.show();
-                    // assertTrue(false);
                 }
             });
-        }else{
-            Toast toast = SafeToast.makeText(getApplicationContext(),"Asistencia Reportada " , SafeToast.LENGTH_SHORT );
+        } else {
+            Toast toast = SafeToast.makeText(getApplicationContext(), "No Hay conexion a internet ", SafeToast.LENGTH_SHORT);
             toast.show();
         }
 
     }
 
-
-    public void askPermissions(){
+    /**
+     * Pregunta por permisos al usuario
+     */
+    public void askPermissions() {
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -507,8 +523,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-    public void updatePosition(){
+    /**
+     * Actualiza la variable posicion segun los valores arrojados por el GPS del dispositivo y los permisos
+     */
+    public void updatePosition() {
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -526,7 +544,7 @@ public class MainActivity extends AppCompatActivity
         }
         if (MY_PERMISSIONS_REQUEST_GPS == PackageManager.PERMISSION_GRANTED || MY_PERMISSIONS_REQUEST_GPS_COARSE
                 == PackageManager.PERMISSION_GRANTED) {
-            this.permissionsGranted=true;
+            this.permissionsGranted = true;
             Log.e("position", "Granted");
             LocationManager locationManager = (LocationManager)
                     getSystemService(Context.LOCATION_SERVICE);
@@ -547,7 +565,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         }
-
     }
 }
 

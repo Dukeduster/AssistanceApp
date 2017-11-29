@@ -21,7 +21,7 @@ repositories {
 }
 
 def final ipDebugApp = '\"http://luditics.eastus.cloudapp.azure.com:8001/\"'
-def final ipReleaseApp = '\"http://190.248.130.90:16969/sgifv5rest/webresources/\"'
+def final ipReleaseApp = '\"http://luditics.eastus.cloudapp.azure.com:8001/\"'
 
 android {
     compileSdkVersion 25

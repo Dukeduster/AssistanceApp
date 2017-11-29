@@ -2,6 +2,7 @@ package co.edu.udea.arqsoft.assistapp.dtos;
 
 /**
  * Created by AW 13 on 30/10/2017.
+ * DTO para Usuarios
  */
 
 public class User {

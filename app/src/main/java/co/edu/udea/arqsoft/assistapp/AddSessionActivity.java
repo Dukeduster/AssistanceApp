@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import co.edu.udea.arqsoft.assistapp.dtos.Course;
 import co.edu.udea.arqsoft.assistapp.dtos.Session;
 import co.edu.udea.arqsoft.assistapp.dtos.User;
 import co.edu.udea.arqsoft.assistapp.restapi.RestClientImpl;
@@ -39,10 +38,7 @@ import retrofit2.Response;
 
 public class AddSessionActivity extends AppCompatActivity {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
+
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -128,18 +124,6 @@ public class AddSessionActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //populateAutoComplete();
-            }
-        }
-    }
 
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
